@@ -7,24 +7,18 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await sequelize.sync();
 
-    const [jane, john] = await User.findAll({
-      where: {
-        [Sequelize.Op.or]: [{ first_name: "Jane" }, { first_name: "John" }],
-      },
-    });
-
     return queryInterface.bulkInsert("reviews", [
       {
-        reviewer_id: jane.id,
-        reviewee_id: john.id,
+        reviewer_id: 2,
+        reviewee_id: 3,
         description: "John is a great team member!",
         rating: 5,
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
-        reviewer_id: john.id,
-        reviewee_id: jane.id,
+        reviewer_id: 4,
+        reviewee_id: 5,
         description: "Jane is an excellent team leader!",
         rating: 5,
         created_at: new Date(),
