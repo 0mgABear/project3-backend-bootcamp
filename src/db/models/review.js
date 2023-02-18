@@ -4,18 +4,15 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Review extends Model {
-    static associate(models) {
-      this.belongsTo(models.User, {
+    static associate({ like, user }) {
+      this.hasMany(like, { foreignKey: "review_id" });
+      this.belongsTo(user, {
         foreignKey: "reviewer_id",
         as: "reviewer",
       });
-      this.belongsTo(models.User, {
+      this.belongsTo(user, {
         foreignKey: "reviewee_id",
         as: "reviewee",
-      });
-      this.belongsTo(models.Company, {
-        foreignKey: "company_id",
-        as: "company",
       });
     }
   }
@@ -26,19 +23,19 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      reviewer_id: {
+      reviewerId: {
         type: DataTypes.BIGINT,
         allowNull: false,
         references: {
-          model: "users",
+          model: "user",
           key: "id",
         },
       },
-      reviewee_id: {
+      revieweeId: {
         type: DataTypes.BIGINT,
         allowNull: false,
         references: {
-          model: "users",
+          model: "user",
           key: "id",
         },
       },
@@ -46,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: false,
       },
-      created_at: {
+      createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: DataTypes.NOW,
@@ -55,13 +52,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DOUBLE,
         allowNull: false,
       },
-      company_id: {
+      companyId: {
         type: DataTypes.BIGINT,
         allowNull: false,
-        references: {
-          model: "companies",
-          key: "id",
-        },
       },
     },
     {

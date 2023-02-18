@@ -3,7 +3,13 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {}
+  class User extends Model {
+    static associate({ review, like }) {
+      this.hasMany(review, { foreignKey: "reviewer_id" });
+      this.hasMany(review, { foreignKey: "reviewee_id" });
+      this.hasMany(like);
+    }
+  }
   User.init(
     {
       id: {
@@ -11,11 +17,11 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      first_name: {
+      firstName: {
         type: DataTypes.STRING(100),
         allowNull: false,
       },
-      last_name: {
+      lastName: {
         type: DataTypes.STRING(100),
         allowNull: false,
       },

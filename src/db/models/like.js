@@ -4,12 +4,12 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Like extends Model {
-    static associate(models) {
-      this.belongsTo(models.User, {
+    static associate({ user, review }) {
+      this.belongsTo(user, {
         foreignKey: "user_id",
         as: "user",
       });
-      this.belongsTo(models.Company, {
+      this.belongsTo(review, {
         foreignKey: "review_id",
         as: "review",
       });
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      review_id: {
+      reviewId: {
         type: DataTypes.BIGINT,
         allowNull: false,
         references: {
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      user_id: {
+      userId: {
         type: DataTypes.BIGINT,
         allowNull: false,
         references: {
