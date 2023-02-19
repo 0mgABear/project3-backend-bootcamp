@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       companyId: {
         type: DataTypes.BIGINT,
-        allowNull: false,
+        allowNull: true,
       },
     },
     {
