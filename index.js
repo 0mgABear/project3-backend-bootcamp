@@ -9,10 +9,6 @@ app.use(express.json());
 const db = require("./src/db/models/index.js");
 const { user, review } = db;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
 app.get("/users", async (req, res) => {
   const users = await user.findAll();
   res.json(users);
