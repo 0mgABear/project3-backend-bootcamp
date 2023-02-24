@@ -9,15 +9,6 @@ const { auth, requiredScopes } = require("express-oauth2-jwt-bearer");
 const db = require("./src/db/models/index.js");
 const { user, review } = db;
 
-const checkJwt = auth({
-  audience: process.env.AUDIENCE,
-  issuerBaseURL: process.env.ISSUER_BASE_URL,
-});
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
 app.get("/users", async (req, res) => {
   const users = await user.findAll();
   res.json(users);
