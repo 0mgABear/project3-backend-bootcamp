@@ -5,7 +5,7 @@ const PORT = process.env.PORT;
 const cors = require("cors");
 app.use(cors());
 app.use(express.json());
-
+const { auth, requiredScopes } = require("express-oauth2-jwt-bearer");
 const db = require("./src/db/models/index.js");
 const { user, review } = db;
 
@@ -48,6 +48,21 @@ app.post("/", async (req, res) => {
     updatedAt: new Date(),
   });
   res.json(newReview);
+});
+
+app.post("/users", async (req, res) => {
+  const [newOrCurrentUser, created] = await user.findOrCreate({
+    where: { email: req.body.email },
+    defaults: {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      company: req.body.company,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  });
+  res.json(newOrCurrentUser);
 });
 
 // Start server
