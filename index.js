@@ -8,6 +8,7 @@ app.use(express.json());
 const { auth, requiredScopes } = require("express-oauth2-jwt-bearer");
 const db = require("./src/db/models/index.js");
 const { user, review } = db;
+const { Op } = require("sequelize");
 
 app.get("/users", async (req, res) => {
   const users = await user.findAll();
@@ -38,7 +39,23 @@ app.get("/users/:userId/reviews", async (req, res) => {
   }
 });
 
-app.post("/", async (req, res) => {
+app.get("/user", async (req, res) => {
+  try {
+    const userEmail = req.query.email;
+    const userData = await user.findAll({
+      where: {
+        email: {
+          [Op.eq]: userEmail,
+        },
+      },
+    });
+    res.json(userData);
+  } catch (err) {
+    return res.status(400).json({ error: true, msg: "error" });
+  }
+});
+
+app.post("/user/postreview", async (req, res) => {
   const newReview = await review.create({
     revieweeId: req.body.revieweeId,
     reviewerId: req.body.reviewerId,
