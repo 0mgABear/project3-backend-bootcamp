@@ -82,7 +82,6 @@ app.post("/users", async (req, res) => {
   res.json(newOrCurrentUser);
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Express app listening on port ${PORT}!`);
 });
