@@ -4,7 +4,7 @@ module.exports = {
   async createComment(req, res) {
     const newComment = await createComment({
       ...req.body,
-      sightingId: req.params.sightingId,
+      commentId: req.params.commentId,
     });
     res.json(newComment);
   },

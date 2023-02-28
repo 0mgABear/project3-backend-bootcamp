@@ -60,11 +60,16 @@ app.post("/user/postreview", async (req, res) => {
     revieweeId: req.body.revieweeId,
     reviewerId: req.body.reviewerId,
     description: req.body.description,
-    rating: req.body.description,
+    rating: req.body.rating,
     createdAt: new Date(),
     updatedAt: new Date(),
   });
-  res.json(newReview);
+  const thisUserReviews = await review.findAll({
+    where: {
+      reviewee_id: req.body.revieweeId,
+    },
+  });
+  res.json(thisUserReviews);
 });
 
 app.post("/users", async (req, res) => {
